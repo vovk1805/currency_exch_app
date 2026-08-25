@@ -62,13 +62,7 @@
     if (!rate) {
       rateLine.textContent = "Курс недоступний";
     } else {
-      const sourceLabel =
-        state.rates.source === "api"
-          ? "онлайн"
-          : state.rates.source === "cache"
-            ? "з кешу"
-            : "запасний";
-      rateLine.textContent = `1 ${state.currency} = ${rate.toFixed(2).replace(".", ",")} UAH · ${state.rates.date} (${sourceLabel})`;
+      rateLine.textContent = `1 ${state.currency} = ${rate.toFixed(2).replace(".", ",")} UAH`;
     }
 
     const fxParts = greedyBreakdown(amount, DENOMINATIONS[state.currency] || []);
