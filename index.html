@@ -7,17 +7,17 @@
   <meta name="apple-mobile-web-app-status-bar-style" content="black-translucent" />
   <meta name="apple-mobile-web-app-title" content="Обмін валют" />
   <meta name="mobile-web-app-capable" content="yes" />
-  <link rel="apple-touch-icon" href="assets/icons/apple-touch-icon-180.png" />
-  <link rel="icon" type="image/png" href="assets/icons/apple-touch-icon-180.png" />
+  <link rel="apple-touch-icon" href="assets/icons/apple-touch-icon-180.png?v=5" />
+  <link rel="icon" type="image/png" href="assets/icons/apple-touch-icon-180.png?v=5" />
   <title>Обмін валют</title>
-  <link rel="stylesheet" href="css/app.css?v=4" />
+  <link rel="stylesheet" href="css/app.css?v=5" />
 </head>
 <body>
   <div id="app">
     <header class="top-bar">
       <div class="currency-row" id="currencyRow" role="listbox" aria-label="Валюта"></div>
       <div class="amount-block">
-        <label class="amount-label" for="amountDisplay">Сума</label>
+        <label class="amount-label" id="amountLabel" for="amountDisplay">Сума</label>
         <div class="amount-display" id="amountDisplay">0</div>
         <div class="rate-line" id="rateLine">Завантаження курсів…</div>
       </div>
@@ -33,26 +33,34 @@
       </section>
       <section class="pane pane-uah" aria-label="До сплати в UAH">
         <div class="pane-header">
-          <h2>До сплати в UAH</h2>
+          <h2 id="uahTitle">До сплати в UAH</h2>
           <p class="pane-summary" id="uahSummary">—</p>
+          <p class="pane-discount" id="discountLine" hidden></p>
+          <p class="pane-final" id="finalLine" hidden></p>
         </div>
         <div class="bills" id="uahBills"></div>
       </section>
     </main>
 
-    <footer class="keypad" id="keypad" aria-label="Клавіатура">
-      <button type="button" class="key" data-key="1">1</button>
-      <button type="button" class="key" data-key="2">2</button>
-      <button type="button" class="key" data-key="3">3</button>
-      <button type="button" class="key key-action" data-key="clear">C</button>
-      <button type="button" class="key" data-key="4">4</button>
-      <button type="button" class="key" data-key="5">5</button>
-      <button type="button" class="key" data-key="6">6</button>
-      <button type="button" class="key" data-key="7">7</button>
-      <button type="button" class="key" data-key="8">8</button>
-      <button type="button" class="key" data-key="9">9</button>
-      <button type="button" class="key key-action" data-key="back">⌫</button>
-      <button type="button" class="key key-zero" data-key="0">0</button>
+    <footer class="footer-bar">
+      <div class="keypad" id="keypad" aria-label="Клавіатура">
+        <button type="button" class="key" data-key="1">1</button>
+        <button type="button" class="key" data-key="2">2</button>
+        <button type="button" class="key" data-key="3">3</button>
+        <button type="button" class="key key-action" data-key="clear">C</button>
+        <button type="button" class="key" data-key="4">4</button>
+        <button type="button" class="key" data-key="5">5</button>
+        <button type="button" class="key" data-key="6">6</button>
+        <button type="button" class="key" data-key="7">7</button>
+        <button type="button" class="key" data-key="8">8</button>
+        <button type="button" class="key" data-key="9">9</button>
+        <button type="button" class="key key-action" data-key="back">⌫</button>
+        <button type="button" class="key key-zero" data-key="0">0</button>
+      </div>
+      <div class="discount-actions">
+        <button type="button" class="discount-btn" id="discountBtn">Застосувати знижку</button>
+        <button type="button" class="discount-btn discount-btn-clear" id="discountClearBtn" hidden>Скинути знижку</button>
+      </div>
     </footer>
   </div>
 
@@ -61,6 +69,6 @@
   <script src="js/rates-fallback.js?v=2"></script>
   <script src="js/rates.js?v=2"></script>
   <script src="js/breakdown.js?v=2"></script>
-  <script src="js/app.js?v=3"></script>
+  <script src="js/app.js?v=6"></script>
 </body>
 </html>
