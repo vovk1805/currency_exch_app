@@ -7,7 +7,8 @@
     rates: RATES_FALLBACK,
   };
 
-  const currencyRow = document.getElementById('currencyRow');
+  const appRoot = document.getElementById("app");
+  const currencyRow = document.getElementById("currencyRow");
   const amountLabel = document.getElementById('amountLabel');
   const amountDisplay = document.getElementById('amountDisplay');
   const rateLine = document.getElementById('rateLine');
@@ -20,8 +21,37 @@
   const fxBills = document.getElementById('fxBills');
   const uahBills = document.getElementById('uahBills');
   const keypad = document.getElementById('keypad');
-  const discountBtn = document.getElementById('discountBtn');
-  const discountClearBtn = document.getElementById('discountClearBtn');
+  const discountBtn = document.getElementById("discountBtn");
+  const discountClearBtn = document.getElementById("discountClearBtn");
+  const payBtn = document.getElementById("payBtn");
+  const freeBtn = document.getElementById("freeBtn");
+  const payModal = document.getElementById("payModal");
+  const payModalTitle = document.getElementById("payModalTitle");
+  const payDoneBtn = document.getElementById("payDoneBtn");
+  const payCloseBtn = document.getElementById("payCloseBtn");
+
+  function getFinalPayAmount() {
+    const amount = parsePositiveInt(state.amountText);
+    const discount = parsePositiveInt(state.discountText);
+    const rate = getRateToUah(state.rates, state.currency);
+    const uahAmount = rate ? Math.floor(amount * rate) : 0;
+    const appliedDiscount = Math.min(discount, uahAmount);
+    return Math.max(0, uahAmount - appliedDiscount);
+  }
+
+  function openPayModal(titleText) {
+    payModalTitle.textContent = titleText;
+    payModal.hidden = false;
+  }
+
+  function closePayModalKeepState() {
+    payModal.hidden = true;
+  }
+
+  function closePayModalAndReset() {
+    payModal.hidden = true;
+    resetToInitialState();
+  }
 
   function parsePositiveInt(text) {
     const value = Number(text);
@@ -85,14 +115,22 @@
 
   function updateAmountDisplay() {
     const activeText = getActiveText();
-    amountDisplay.textContent = activeText;
-    if (state.inputMode === 'discount') {
-      amountLabel.textContent = 'Знижка (UAH)';
-      amountDisplay.classList.add('discount-mode');
+    amountDisplay.textContent = formatUaInt(parsePositiveInt(activeText));
+    if (state.inputMode === "discount") {
+      amountLabel.textContent = "Знижка (UAH)";
+      amountDisplay.classList.add("discount-mode");
     } else {
-      amountLabel.textContent = 'Сума';
-      amountDisplay.classList.remove('discount-mode');
+      amountLabel.textContent = "Сума";
+      amountDisplay.classList.remove("discount-mode");
     }
+  }
+
+  function applyCurrencyTheme(code) {
+    const colors = CURRENCY_COLORS[code] || CURRENCY_COLORS.USD;
+    appRoot.style.setProperty("--fx-from", colors.from);
+    appRoot.style.setProperty("--fx-to", colors.to);
+    appRoot.style.setProperty("--fx-accent", colors.accent);
+    appRoot.dataset.currency = code;
   }
 
   function renderAll() {
@@ -105,12 +143,14 @@
     const finalAmount = Math.max(0, uahAmount - appliedDiscount);
     const hasDiscount = discount > 0 && uahAmount > 0;
 
+    applyCurrencyTheme(state.currency);
+
     fxTitle.textContent = currencyMeta ? currencyMeta.name : state.currency;
 
     if (!rate) {
-      rateLine.textContent = 'Курс недоступний';
+      rateLine.textContent = "Курс недоступний";
     } else {
-      rateLine.textContent = `1 ${state.currency} = ${rate.toFixed(2).replace('.', ',')} UAH`;
+      rateLine.textContent = `1 ${state.currency} = ${formatUaDecimal(rate, 2)} UAH`;
     }
 
     const fxParts = greedyBreakdown(amount, DENOMINATIONS[state.currency] || []);
@@ -121,17 +161,17 @@
       fxSummary.textContent =
         summarizeBreakdown(fxParts, state.currency) || formatMoney(Math.floor(amount), state.currency);
     } else {
-      fxSummary.textContent = '—';
+      fxSummary.textContent = "—";
     }
 
-    uahTitle.textContent = 'До сплати в UAH';
-    uahSummary.textContent = amount > 0 && rate ? `${uahAmount.toLocaleString('uk-UA')} ₴` : '—';
+    uahTitle.textContent = "До сплати в UAH";
+    uahSummary.textContent = amount > 0 && rate ? `${formatUaInt(uahAmount)} ₴` : "—";
 
     if (hasDiscount) {
       discountLine.hidden = false;
       finalLine.hidden = false;
-      discountLine.textContent = `Знижка: −${appliedDiscount.toLocaleString('uk-UA')} ₴`;
-      finalLine.textContent = `Фінальна сума (зі знижкою): ${finalAmount.toLocaleString('uk-UA')} ₴`;
+      discountLine.textContent = `Знижка: −${formatUaInt(appliedDiscount)} ₴`;
+      finalLine.textContent = `Фінальна сума (зі знижкою): ${formatUaInt(finalAmount)} ₴`;
     } else {
       discountLine.hidden = true;
       finalLine.hidden = true;
@@ -203,10 +243,26 @@
     renderAll();
   });
 
-  discountClearBtn.addEventListener('click', () => {
-    state.discountText = '0';
+  discountClearBtn.addEventListener("click", () => {
+    state.discountText = "0";
     exitDiscountMode();
     renderAll();
+  });
+
+  payBtn.addEventListener("click", () => {
+    openPayModal(`Оплата: ${formatUaInt(getFinalPayAmount())} ₴`);
+  });
+
+  freeBtn.addEventListener("click", () => {
+    openPayModal("Оплата: БЕЗКОШТОВНО");
+  });
+
+  payCloseBtn.addEventListener("click", () => {
+    closePayModalKeepState();
+  });
+
+  payDoneBtn.addEventListener("click", () => {
+    closePayModalAndReset();
   });
 
   renderCurrencyChips();

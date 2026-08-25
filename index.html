@@ -10,7 +10,7 @@
   <link rel="apple-touch-icon" href="assets/icons/apple-touch-icon-180.png?v=5" />
   <link rel="icon" type="image/png" href="assets/icons/apple-touch-icon-180.png?v=5" />
   <title>Обмін валют</title>
-  <link rel="stylesheet" href="css/app.css?v=5" />
+  <link rel="stylesheet" href="css/app.css?v=8" />
 </head>
 <body>
   <div id="app">
@@ -60,15 +60,26 @@
       <div class="discount-actions">
         <button type="button" class="discount-btn" id="discountBtn">Застосувати знижку</button>
         <button type="button" class="discount-btn discount-btn-clear" id="discountClearBtn" hidden>Скинути знижку</button>
+        <button type="button" class="discount-btn discount-btn-clear pay-btn" id="payBtn">Оплата</button>
+        <button type="button" class="discount-btn discount-btn-clear free-btn" id="freeBtn">Купити безкоштовно</button>
       </div>
     </footer>
   </div>
 
-  <script src="js/denominations.js?v=2"></script>
-  <script src="js/banknote-assets.js?v=2"></script>
+  <div class="pay-modal" id="payModal" hidden>
+    <div class="pay-modal-card" role="dialog" aria-modal="true" aria-labelledby="payModalTitle">
+      <button type="button" class="pay-modal-close" id="payCloseBtn" aria-label="Закрити">×</button>
+      <img class="pay-modal-icon" src="assets/icons/nfc.jpg" alt="NFC" />
+      <h2 class="pay-modal-title" id="payModalTitle">Оплата: 0 ₴</h2>
+      <button type="button" class="pay-modal-done" id="payDoneBtn">Готово</button>
+    </div>
+  </div>
+
+  <script src="js/denominations.js?v=9"></script>
+  <script src="js/banknote-assets.js?v=8"></script>
   <script src="js/rates-fallback.js?v=2"></script>
   <script src="js/rates.js?v=2"></script>
-  <script src="js/breakdown.js?v=2"></script>
-  <script src="js/app.js?v=6"></script>
+  <script src="js/breakdown.js?v=9"></script>
+  <script src="js/app.js?v=10"></script>
 </body>
 </html>
