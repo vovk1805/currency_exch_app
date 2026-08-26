@@ -404,10 +404,10 @@ body {
   position: relative;
   z-index: 1;
   display: grid;
-  grid-template-columns: minmax(0, 1fr) 200px;
-  gap: 14px;
+  grid-template-columns: minmax(0, 1fr) 210px;
+  gap: 12px;
   align-items: stretch;
-  padding: 12px 18px 16px;
+  padding: 10px 18px 14px;
   background: linear-gradient(180deg, rgba(8, 36, 72, 0.55), rgba(8, 28, 58, 0.85));
   border-top: 2px solid rgba(255, 255, 255, 0.2);
   min-height: 0;
@@ -432,23 +432,27 @@ body {
 .discount-actions {
   display: flex;
   flex-direction: column;
-  gap: 12px;
+  gap: 8px;
   min-height: 0;
+  overflow: hidden;
 }
 
 .discount-btn {
-  flex: 1;
-  min-height: var(--touch-min);
+  flex: 1 1 0;
+  min-height: 44px;
   border: 2px solid rgba(255, 220, 160, 0.85);
-  border-radius: var(--radius);
+  border-radius: 12px;
   background: linear-gradient(180deg, #f0a84a, var(--eur-orange));
   color: #2a1600;
-  font-size: 20px;
+  font-size: 13px;
   font-weight: 800;
-  line-height: 1.2;
-  padding: 12px 10px;
+  line-height: 1.1;
+  padding: 6px 6px;
   cursor: pointer;
   box-shadow: 0 4px 10px rgba(0, 20, 50, 0.22);
+  white-space: nowrap;
+  overflow: hidden;
+  text-overflow: ellipsis;
 }
 
 .discount-btn:active,
@@ -460,11 +464,11 @@ body {
 
 .discount-btn-clear {
   flex: 0 0 auto;
-  min-height: 56px;
+  min-height: 44px;
   background: linear-gradient(180deg, #8a6fc0, var(--eur-purple));
   border-color: rgba(220, 200, 255, 0.75);
   color: #fff;
-  font-size: 18px;
+  font-size: 13px;
 }
 
 .pay-btn {
@@ -483,14 +487,42 @@ body {
   background: linear-gradient(180deg, #3ecf8e, #1f8a4c);
   border-color: rgba(180, 255, 210, 0.85);
   color: #fff;
-  font-size: 16px;
-  line-height: 1.15;
+  font-size: 12px;
+  line-height: 1.1;
 }
 
 .free-btn:active {
   background: linear-gradient(180deg, #6ee0ab, #3ecf8e);
   border-color: #fff;
   color: #fff;
+}
+
+.lottery-btn {
+  background: linear-gradient(180deg, #ff4d4d, #b01020);
+  border-color: rgba(255, 190, 190, 0.9);
+  color: #fff;
+  font-size: 12px;
+  line-height: 1.1;
+}
+
+.lottery-btn:active {
+  background: linear-gradient(180deg, #ff7a7a, #ff4d4d);
+  border-color: #fff;
+  color: #fff;
+}
+
+.phone-btn {
+  background: linear-gradient(180deg, #ffe566, #e0b000);
+  border-color: rgba(255, 240, 180, 0.95);
+  color: #2a1600;
+  font-size: 12px;
+  line-height: 1.1;
+}
+
+.phone-btn:active {
+  background: linear-gradient(180deg, #fff0a0, #ffe566);
+  border-color: #fff;
+  color: #2a1600;
 }
 
 .amount-display.discount-mode {
@@ -584,6 +616,52 @@ body {
 
 .pay-modal-done:active {
   filter: brightness(1.08);
+}
+
+.phone-modal-card {
+  width: min(560px, 100%);
+  gap: 16px;
+  padding-top: 40px;
+}
+
+.phone-display {
+  width: 100%;
+  min-height: 64px;
+  padding: 12px 14px;
+  border-radius: var(--radius);
+  background: linear-gradient(180deg, #f7f9fc, #e8eef6);
+  border: 3px solid var(--eur-yellow);
+  color: var(--eur-navy);
+  font-size: 28px;
+  font-weight: 800;
+  font-variant-numeric: tabular-nums;
+  text-align: center;
+  letter-spacing: 0.02em;
+}
+
+.phone-keypad {
+  width: 100%;
+  display: grid;
+  grid-template-columns: repeat(4, minmax(0, 1fr));
+  grid-template-rows: repeat(4, 64px);
+  gap: 10px;
+}
+
+.phone-keypad .key[data-phone-key="1"] { grid-area: 1 / 1; }
+.phone-keypad .key[data-phone-key="2"] { grid-area: 1 / 2; }
+.phone-keypad .key[data-phone-key="3"] { grid-area: 1 / 3; }
+.phone-keypad .key[data-phone-key="clear"] { grid-area: 1 / 4 / 3 / 5; }
+.phone-keypad .key[data-phone-key="4"] { grid-area: 2 / 1; }
+.phone-keypad .key[data-phone-key="5"] { grid-area: 2 / 2; }
+.phone-keypad .key[data-phone-key="6"] { grid-area: 2 / 3; }
+.phone-keypad .key[data-phone-key="7"] { grid-area: 3 / 1; }
+.phone-keypad .key[data-phone-key="8"] { grid-area: 3 / 2; }
+.phone-keypad .key[data-phone-key="9"] { grid-area: 3 / 3; }
+.phone-keypad .key[data-phone-key="back"] { grid-area: 3 / 4 / 5 / 5; }
+.phone-keypad .key[data-phone-key="0"] { grid-area: 4 / 2; }
+
+.phone-keypad .key {
+  font-size: 28px;
 }
 
 .key {
